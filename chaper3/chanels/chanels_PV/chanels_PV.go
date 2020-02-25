@@ -40,7 +40,7 @@ func send(finCh semaphore)(ch chan int){
 	ch=make(chan int)
 	go func(ch chan int){
 		for i:=0;i<10;i++{ch<-i}
-		close(ch)
+		//close(ch)
 		finCh.P(1)
 	}(ch)
 	return

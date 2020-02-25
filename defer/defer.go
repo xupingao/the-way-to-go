@@ -7,8 +7,10 @@ import (
 )
 
 func main(){
-	a()
-	b("HELLO")
+	a:=3
+	fmt.Println(c(&a))
+	//a()
+	//b("HELLO")
 }
 func trace(str string)(s string){
 	fmt.Printf("entering:%s\n",str)
@@ -27,4 +29,11 @@ func b(s string)(n int ,err error){
 		log.Printf("func(%q) = %d,%v",s,n,err)
 	}()
 	return 7,io.EOF
+}
+
+func c(a *int)int{
+	defer func(){
+		*a++
+	}()
+	return *a
 }

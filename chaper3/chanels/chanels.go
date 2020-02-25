@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"time"
 )
 type vector []int
@@ -48,11 +49,17 @@ func main(){
 	//<-ch
 	//fmt.Println(v[0])
 
-	v:=vector{1,2,3,4}
-	ch:=v.Iter()
-	go suck(ch)
-	time.Sleep(1e9)
+	//v:=vector{1,2,3,4}
+	//ch:=v.Iter()
+	//go suck(ch)
+	//time.Sleep(1e9)
 
+	send:=make(chan int)
+	rec:=make(chan string)
+	go processChanel(send,rec)
+	send<-123
+	send<-123
+	fmt.Println(<-rec)
 }
 
 func sender(ch chan string){
@@ -83,4 +90,10 @@ func pump(ch chan int)(){
 func sortVector(v vector,ch chan int){
 	sort.Sort(v)
 	ch<-1
+}
+
+func processChanel(in <-chan int,out chan<- string){
+	for inValue:=range(in){
+		out<-strconv.Itoa(inValue)
+	}
 }
